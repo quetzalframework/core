@@ -1,4 +1,1 @@
-export {
-    QuetzalElement,
-    QuetzalBaseElement
-} from "./src/quetzal.ts";
+export { QuetzalBaseElement, QuetzalElement } from "./src/quetzal.ts";
