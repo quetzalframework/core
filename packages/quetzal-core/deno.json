@@ -1,3 +1,9 @@
 {
-  "name": "@quetzal/core"
+  "name": "@quetzal/core",
+  "version": "0.0.1-pre",
+  "exports": "./mod.ts",
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": ["dom", "dom.iterable", "dom.asynciterable", "deno.ns"]
+  }
 }

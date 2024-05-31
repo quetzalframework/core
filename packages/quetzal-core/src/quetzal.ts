@@ -100,7 +100,7 @@ export abstract class QuetzalBaseElement extends StatefulElement
  * A base Quetzal Element
  */
 export class QuetzalElement extends QuetzalBaseElement {
-  render() {
+  render(): string {
     return "";
   }
 }
