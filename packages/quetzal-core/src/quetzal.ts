@@ -25,16 +25,26 @@ export class StaticElement extends HTMLElement implements StaticInterface {
  */
 export interface QuetzalBaseInterface {
   /**
-   * Code executed when a given element is initialised
+   * Code executed when a given element is created
    * @returns {void}
    */
-  init(): void;
+  created(): void;
+
+  /**
+   * Code executed before a quetzal element is fully created
+   */
+  beforeCreated(): void;
+
+  /**
+   * Code executed when a given element is mounted to the DOM
+   */
+  mounted(): void;
 
   /**
    * Code executed when the given element is removed or destroyed
    * @returns {void}
    */
-  dispose(): void;
+  unmounted(): void;
 
   /**
    * Styles to use in the given component
@@ -59,8 +69,10 @@ export interface QuetzalBaseInterface {
  */
 export abstract class QuetzalBaseElement extends StatefulElement
   implements QuetzalBaseInterface {
-  init() {}
-  dispose() {}
+  beforeCreated() {}
+  created() {}
+  mounted() {}
+  unmounted() {}
   abstract render(): string;
   styles: string = "";
 
@@ -77,10 +89,10 @@ export abstract class QuetzalBaseElement extends StatefulElement
   }
 
   connectedCallback() {
-    this.init();
+    this.mounted();
   }
   disconnectedCallback() {
-    this.dispose();
+    this.unmounted();
   }
 
   /**
@@ -88,11 +100,13 @@ export abstract class QuetzalBaseElement extends StatefulElement
    */
   constructor() {
     super();
+    this.beforeCreated();
     const shadowRoot = this.attachShadow({ mode: "open" });
     shadowRoot.append(QuetzalBaseElement._build(this.render()));
     shadowRoot.childNodes[0].appendChild(
       QuetzalBaseElement._buildStyle(this.styles),
     );
+    this.created();
   }
 }
 
