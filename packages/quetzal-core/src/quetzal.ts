@@ -100,13 +100,15 @@ export abstract class QuetzalBaseElement extends StatefulElement
    */
   constructor() {
     super();
-    this.beforeCreated();
-    const shadowRoot = this.attachShadow({ mode: "open" });
-    shadowRoot.append(QuetzalBaseElement._build(this.render()));
-    shadowRoot.childNodes[0].appendChild(
-      QuetzalBaseElement._buildStyle(this.styles),
-    );
-    this.created();
+    (async () => {
+      await Promise.resolve(this.beforeCreated()).then(e => {
+        const shadowRoot = this.attachShadow({ mode: "open" });
+        const element = QuetzalBaseElement._build(this.render());
+        element.appendChild(QuetzalBaseElement._buildStyle(this.styles));
+        shadowRoot.append(element);
+        this.created();
+      })
+    })()
   }
 }
 
